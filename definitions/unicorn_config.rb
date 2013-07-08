@@ -47,13 +47,8 @@ define :unicorn_config,
     action :create
   end
 
-  tvars = params.clone
   params[:listen].each do |port, options|
-    oarray = Array.new
-    options.each do |k, v|
-      oarray << ":#{k} => #{v}"
-    end
-    tvars[:listen][port] = oarray.join(", ")
+    params[:listen][port] = options.map { |k, v| ":#{k} => #{v}" }.join ", "
   end
   
   template params[:name] do
